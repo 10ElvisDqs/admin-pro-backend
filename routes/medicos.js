@@ -18,6 +18,7 @@ const {
 const router=Router();
 
 router.get('/',getMedicos);
+
 router.post('/',
   [
     validarJWT,
@@ -27,10 +28,17 @@ router.post('/',
   ],
   crearMedico
 );
+
 router.put('/:id', 
-  [],
+  [
+    validarJWT,
+    check('nombre','el nombre del medico es necesario').not().isEmpty(),
+    check('hospital','el hospital id debe ser valido').isMongoId(),
+    validarCampos,
+  ],
   actualizarMedico
 );
+
 router.delete('/:id', 
   borrarMedico
 );
